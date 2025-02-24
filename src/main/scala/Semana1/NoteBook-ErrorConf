@@ -1,0 +1,37 @@
+En la primeraAppSapar
+
+Debemos tener varias cosas configuradas para que nos pueda funcionar si no saldrían varios errores:
+
+## Error 1
+Error: Unable to initialize main class Semana1.PrimeraAppSpark
+Caused by: java.lang.NoClassDefFoundError: org/apache/spark/sql/Dataset
+
+Dice que no encuentra la clase org/apache/spark/sql/Dataset (esto es una clase de spark), esto sucede porque cuando
+instalamos las dependencias en el build.sbt, spark esta como Provied, esto quiere decir que cuando compilamos funciona,
+cuando lo ejecutamos no esta provista,
+Para solucionarlo debemos ir al editor del archivo que se encuentra en la configuración de ejecución que se genera
+luego de ejecutar cualquier archivo, en la ventana que genera, presionamos Modify options y luego activamos Add
+dependencies with "provided".... luego aplicamos y ok
+
+Ejecutamos de nuevo y saldría el Error 2
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Exception in thread "main" java.lang.IllegalAccessError: class org.apache.spark.storage.StorageUtils$ (in unnamed module @0x69e1dd28) cannot access class sun.nio.ch.DirectBuffer (in module java.base) because module java.base does not export sun.nio.ch to unnamed module @0x69e1dd28
+	at org.apache.spark.storage.StorageUtils$.<clinit>(StorageUtils.scala:213)
+	at org.apache.spark.storage.BlockManagerMasterEndpoint.<init>(BlockManagerMasterEndpoint.scala:121)
+	........
+	at Semana1.PrimeraAppSpark$.main(PrimeraAppSpark.scala:39)
+	at Semana1.PrimeraAppSpark.main(PrimeraAppSpark.scala)
+
+
+Dice que no puede acceder a una clase que esta dentro del modulo java.base, esto sucede por la retriciones de seguridad
+de las maquinas de java de las versiones 17 y superior.
+Para solucionarlo debemos añadir los Java Opts en la configuracion de ejecucion, los java opts lo colocamos en el README,
+para tenerlo disponible. Volvemos a repetir lo del primer error y luego de Modify Options activamos Add VM options, lo
+cual nos permitira añadir los Java Opts (Copiar y pegar). Aplicamos y ok,
+
+Volvemos a Ejecutar, esto nos debe hacer el show y si buscamos la carpeta out, debe haber generado algunos ficheros CSV.
+
+Esto no se debe hacer siempre, para no hacerlo copiamos los Java opts y en edit en vez de Modify le damos a Edit
+configurations templates, luego application y hariamos lo mismo que hicimos para solucionar los dos errores anteriores.
