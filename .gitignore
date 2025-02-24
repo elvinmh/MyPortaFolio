@@ -45,3 +45,8 @@ build/
 
 ### Scala ###
 .bsp/
+/data/
+/.idea/
+/malesOverMinimumAge.csv.json/
+/target
+/project/target
