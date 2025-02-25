@@ -2,7 +2,7 @@
 // Las funciones se conocen como elemento de primer orden
 
 /* Las funciones no lambdas son aquellas que definimos con def,
-la que no estan definidades con def, se concen como funcion lambdas
+la que no están definidades con def, se concen como funcion lambdas
 
 También la diferencia entre el val y def encontramos es que los val siempre se
 van a ejecutar

@@ -1,29 +1,25 @@
 ## Portfolio: **Scala / PySpark**
 
-Este portafolio representa mi aprendizaje y trabajo con **Scala** y **PySpark**, las herramientas que estoy estudiando en el módulo "Scala/PySpark". 
+Este portafolio representa mi aprendizaje y trabajo con **Scala** y **PySpark**, incluyendo conceptos fundamentales, buenas prácticas y ejemplos aplicados.
 
 ---
 
 ## Estructura del Proyecto
-El portafolio esta contiene coceptos básicos y calves que salen del temario impartido:
+El portafolio está organizado en diferentes categorías que cubren conceptos clave del desarrollo en Scala y PySpark:
 
+### **Scala**
 - `spark.sql`: Contiene ejemplos relacionados con Spark SQL y funciones personalizadas.
 - `colecciones`: Contiene ejemplos relacionados con colecciones en Scala.
-- `composicion`: Contiene ejemplos que demuestran la composición de funciones.
-- `errores`: Contiene ejemplos que demuestran el manejo de errores.
-- `patrones`: Contiene ejemplos que demuestran patrones de programación funcional.
-  - `applicative`: Contiene ejemplos que demuestran el patrón Aplicativo (Applicative).
-  - `functors`: Contiene ejemplos que demuestran el patrón Funtor (Functor).
-  - `monads`: Contiene ejemplos que demuestran el patrón Mónada (Monad).
-  - `monoids`: Contiene ejemplos que demuestran el patrón Monoide (Monoid).
-  - `semigroups`: Contiene ejemplos que demuestran el patrón Semigrupo (Semigroup).
-  - `traversables`: Contiene ejemplos que demuestran el patrón Traversable.
-  - `validated`: Contiene ejemplos que demuestran el patrón Validated.
-  - `writer`: Contiene ejemplos que demuestran el patrón Writer.
-  - `reader`: Contiene ejemplos que demuestran el patrón Reader.
-  - `state`: Contiene ejemplos que demuestran el patrón State.
-  - `free`: Contiene ejemplos que demuestran el patrón Free.
-  - `coproduct`: Contiene ejemplos que demuestran el patrón Coproduct.
+- `composicion`: Contiene ejemplos sobre la composición de funciones.
+
+### **PySpark**
+- `rdds`: Ejemplos del uso del API RDD.
+- `dataframes`: Uso de DataFrames y operaciones SQL.
+- `datasets`: Uso de Datasets y encoders.
+- `olap`: Operaciones avanzadas con OLAP (Window Functions, Grouping Sets, Rollup).
+- `storage`: Encoding de datos con Avro, Parquet, ORC y Delta Lake.
+- `cluster`: Configuración y despliegue de Spark en clústeres.
+- `optimización`: Técnicas de particionamiento, bucketing y optimización de consultas.
 
 ---
 
@@ -35,42 +31,45 @@ El portafolio esta contiene coceptos básicos y calves que salen del temario imp
 - **Cats**: Librería funcional en Scala.
 - **IntelliJ IDEA**: IDE para desarrollo en Scala.
 - **Jupyter Notebooks**: Entorno interactivo para PySpark.
+- **Docker**: Contenedorización de aplicaciones Spark.
 
 ---
 
-## Dependencias
-El proyecto utiliza las siguientes herramientas y versiones:
+## Instalación y Configuración
+
+### **Dependencias**
+El proyecto usa las siguientes versiones y herramientas:
 
 - SBT: 1.10.7
 - Scala: 2.13.16
 - Apache Spark: 3.5.4
 - Cats Core: 2.10.0
 - Python: >=3.8 (para PySpark)
+- Java: 17+
 
-
-## Comandos de Ejecución
+### **Comandos de Ejecución**
 Para compilar y ejecutar los proyectos:
 
-### Scala:
+#### **Scala**:
 ```bash
 sbt run
 ```
 
-### PySpark:
+#### **PySpark**:
 ```bash
 spark-submit script.py
 ```
 
-### Testing
-Los tests están ubicados en el directorio `src/test/scala` (Scala). Puedes ejecutarlos con:
+#### **Testing**
+Los tests están en `src/test/scala` y se pueden ejecutar con:
 ```bash
 sbt test
 ```
 
 ---
 
-## Añadir las siguientes Java Opts en la configuración de ejecución de la aplicación en IntelliJ IDEA 
-Para que Spark funciones en Java +17, es necesario añadir las siguientes opciones de Java en la configuración de ejecución de la aplicación en IntelliJ IDEA:
+## Configuración de Java para Spark en IntelliJ IDEA
+Para que Spark funcione en Java 17+, es necesario añadir las siguientes opciones en la configuración de ejecución:
 
 ```
 --add-opens=java.base/java.lang=ALL-UNNAMED
@@ -95,4 +94,27 @@ Para que Spark funciones en Java +17, es necesario añadir las siguientes opcion
 --add-opens=java.base/sun.util.calendar=ALL-UNNAMED
 --add-opens=java.security.jgss/sun.security.krb5=ALL-UNNAMED
 ```
+
+---
+
+## Recursos Adicionales
+
+### **Scala**
+- [Programming in Scala](https://www.artima.com/shop/programming_in_scala)
+- [Scala Documentation](https://docs.scala-lang.org/)
+- [Functional Programming in Scala](https://www.manning.com/books/functional-programming-in-scala)
+- [Scala Exercises](https://www.scala-exercises.org/)
+
+### **PySpark**
+- [Databricks PySpark Guide](https://www.databricks.com/spark/pyspark)
+- [Apache Spark Documentation](https://spark.apache.org/docs/latest/)
+- [PySpark SQL Guide](https://spark.apache.org/docs/latest/sql-programming-guide.html)
+- [PySpark API Reference](https://spark.apache.org/docs/latest/api/python/index.html)
+
+### **Apache Spark y Big Data**
+- [Learning Spark, 2nd Edition](https://www.oreilly.com/library/view/learning-spark-2nd/9781492050032/)
+- [High Performance Spark](https://www.oreilly.com/library/view/high-performance-spark/9781491943205/)
+- [Big Data Analysis with Spark](https://link.springer.com/book/10.1007/978-1-4842-7163-5)
+
+Este portafolio seguirá evolucionando con más ejemplos y optimizaciones conforme avance en mi aprendizaje. 🚀
 

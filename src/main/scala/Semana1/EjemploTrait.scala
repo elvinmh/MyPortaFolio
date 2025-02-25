@@ -22,5 +22,5 @@ object EjemploTrait extends App {
 
 
 /* Un trait es un tipo de objeto, que es similiar a una interfaz en JAVA, nos permite compartir campos, datos, metodos y funciones
-entre diferente clase, tambien permite herencia multiple
+entre diferente clase, también permite herencia multiple
  */

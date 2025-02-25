@@ -1,90 +1,102 @@
-Importante dentro de cada ejemplo, hay lineas de comentario tanto del maestro como hechas por mi, para garantizar la comprensión,
-también, se recomienda ir linea a linea para entender que hace cada función, para ir linea a linea se puede imprimir utilizando:
-System.exit(0)
+Notas Semana 2.
 
-En Spark cuando creamos la SpaksSession para conectar el cluster y estamos trabajando con notebook la primera parte no es
-necesario ponerla (Ver referencia del material 02 Apache Spark_2020_V01), porque la variable spark la crea Zeppelin
-automáticamente.
+Conceptos Claves en Spark
 
-¿En qué se diferencia las transformaciones de las acciones? Es que las acciones si le devuelven algo al driver y las
-transformaciones son lacy.
+Transformaciones vs. Acciones
 
-La función collect nos devuelve un array, una colección de scala.
+Transformaciones: Son operaciones lazy (perezosas), lo que significa que no se ejecutan inmediatamente, sino cuando se requiere un resultado.
+Acciones: Devuelven un valor al driver y activan la ejecución de las transformaciones previas.
 
-Las funciones map, flatmap,filter, devuelven una colección distribuida
+Ejemplo de acción: collect(), que devuelve un array o colección en Scala.
+Ejemplo de transformaciones: map, flatMap, filter (devuelven colecciones distribuidas).
+explode: Permite aplanar estructuras anidadas, similar a flatMap.
 
-Explode permite hacer el flatmap
+Formatos de Codificación (Encoding)
 
-Encoding:
-Formatos
-AVRO
-Es un enconding, es un formato de serielización que es muy compacto, rápido y eficiente en el uso de espacio,
-para definir el esquema utiliza JSON y luego utiliza un formato binario para la serielización.
-Serielización es el proceso de estructura de los datos.
-
-Se puede almacenar en ficheros, en código fuentes, en servidores, (los ficheros no suelen utilizarse para streaming de Datos).
-
-Para que ejemplo puieda funcionar, en build.sbt hubo que agregar la dependencia avro.
-
-COLUMNARES / PARQUET
-Tienen una particularida, que es como se almacenan, aqui cada columna se almacena en un fichero.
-
-ORC
-Suele utilizarse en arquitectura cloud y es mas popular que PARQUET
-Aquí viajan los datos, es importante la comprensión.
-Cuando hay dataset historicos suele utilizarse
-Viene nativo con spark
-
-DELTALAKE
-Se llaman tabletFormat.
-Internamente lo guarda como PARQUET
-Se comportan como tabla de base de datos
-Se debe configurar Spark, para que active una serie de clases que son propias de DeltaLake
-Para evitar problemas con la retención de datos: https://docs.delta.io/latest/delta-retention.html
-Aquí no existe la función merge, se debe agregar manualmente la columna que no se encuentra, con su valor predeterminado.
-No es eficiente para gran cantidad volumen de escritura
+Apache Avro
+Es un formato de serialización muy compacto, rápido y eficiente en el uso de espacio.
+Define su esquema utilizando JSON y luego serializa los datos en un formato binario.
+Se utiliza para almacenar datos en ficheros, código fuente y servidores (pero no se usa comúnmente para streaming).
+Para usarlo en Spark, es necesario agregar la dependencia en build.sbt.
 
 
-SPARKSQL sobre Scala
-Crear sección
-Variable de sección:
-implicit val spark: SparkSession = SparkSession.builder() //Siempre creala como una variable implicit
-Los objetos builder me dan un APi o una interfaz para construir objetos complejos de una manera sencilla
-sparkContext: Devuelve el SparkContext
-Esto es necesario para trabajar con RDDs
-implicit val sqlContext: SQLContext = spark.sqlContext // Esta variable esta Deprecated, es decir retirada.
+Formatos Columnares
 
-Noe s habitual trabajar con la base de datos default
+Parquet
+Cada columna se almacena en un fichero separado, optimizando la lectura de datos específicos.
 
-Los DataFrame son inmutable.
+ORC (Optimized Row Columnar)
+Popular en arquitecturas cloud.
+Ideal para conjuntos de datos históricos.
+Viene nativo con Spark.
 
-MUY IMPORTATNTE:
-A la hora de importar fichero, debemos conocer muy bien la dirección e la carpeta.
+Delta Lake
+Formato tipo tableFormat que internamente almacena datos como Parquet.
+Se comporta como una tabla de base de datos.
+Es necesario configurar Spark para habilitar sus clases específicas.
+Se debe gestionar la retención de datos manualmente: https://docs.delta.io/latest/delta-retention.html
+No admite merge directamente; se debe agregar manualmente la columna faltante con un valor predeterminado.
+No es eficiente para grandes volúmenes de escritura.
 
-GroupingSets
-No se recomienda utilizar particionamiento para datos con cardinalidades muy alta. Por ej: la columna ID, porque tendrimos fichero muy pequeños.
-Cardinalidades muy alta quiere decir las repeticiones son muy pocas.
-Esto mataria el rendimiento
+Spark SQL en Scala
 
-El buckering o backetizado  lo que afecta a la manera en que se guardan los datos dentro del fichero, esto tambien se puede ordenar por clave.
-Esto tiene un costo en tema de escritura, ya que aumenta el tiempo.
-Nos permite guardar los datos pre-ordenado
+Configuración de SparkSession
+implicit val spark: SparkSession = SparkSession.builder()
 
-Funcion Windows:
-Sirve para tomar un grupo de Datos y particionarlo.
-Diferencia entre operaciones de ventana de GroupBy es que la primera trabajan a nivel de registro, mientras que el segundo agrupa y devuelve una estructura diferente.
-Operaciones
-lag: Esto permite tener el valor de la siguiente ventana.
-lead: Esto es lo contrario, permite obtener el anterior.
+Se recomienda declararla como implicit.
+builder proporciona una API para construir objetos complejos de manera sencilla.
+sparkContext: Devuelve el contexto de Spark, necesario para trabajar con RDDs.
+sqlContext: Se utilizaba antes, pero actualmente está deprecated.
 
-Creación de ventanas por secciones
-
-DATASETS
-Es un tipo avanzado, es una estructura de datos que trabaja con objetos de Scala nativo.
-Encoder, Spark no tiene.
-
-
-Si no tenemos los SPARK IMPLICITOS, no vamos a poder convertir una secuencia de objeto en un DataSets
+DataFrames
+Son inmutables.
+No es común trabajar con la base de datos default de Spark.
+Importante conocer la ruta exacta al importar archivos.
 
 
 
+##Técnicas de Optimización en Spark SQL##
+
+Grouping Sets
+No se recomienda particionar datos con cardinalidad alta (por ejemplo, ID con valores únicos), ya que generaría muchos ficheros pequeños y afectaría el rendimiento.
+Cardinalidad alta significa que hay pocas repeticiones de valores.
+
+Bucketing (Baketizado)
+Afecta la manera en que se guardan los datos dentro del fichero.
+Se puede ordenar por clave.
+Aumenta el tiempo de escritura, pero mejora la lectura al preordenar los datos.
+
+Funciones de Ventana (Window Functions)
+Permiten agrupar datos y particionarlos dentro de una ventana de análisis.
+
+Diferencia con groupBy:
+Window trabaja a nivel de registro.
+groupBy agrupa y devuelve una estructura diferente.
+
+Operaciones con Ventanas
+lag: Obtiene el valor de la fila anterior dentro de la ventana.
+lead: Obtiene el valor de la fila siguiente dentro de la ventana.
+
+Datasets y Encoders
+Son estructuras de datos avanzadas que trabajan con objetos de Scala nativos.
+Spark no proporciona Encoder automáticamente.
+Si no se configuran los Spark Implicits, no se podrá convertir una secuencia de objetos en un Dataset.
+
+Arquitectura de Spark Cluster
+
+Roles en un Cluster
+
+Master: Coordina la ejecución de los trabajos.
+Workers: Ejecutan las tareas asignadas.
+
+Se puede especificar el número de cores y la memoria para los workers.
+En el Master, estos parámetros se configuran mediante la clase spark-class en el binario de Spark.
+
+Assembly y Despliegue en Docker
+Assembly agrupa todas las dependencias en un único JAR.
+En build.sbt, se añade el plugin de assembly para resolver conflictos entre dependencias.
+
+Para desplegar en Docker:
+Primero, se ejecuta assembly, por en de no es necesario ejecutarlo separado
+
+Luego, se empaqueta la aplicación en un contenedor Docker.
