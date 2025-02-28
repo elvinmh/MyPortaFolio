@@ -71,7 +71,7 @@ object SparkSQLIntro01 extends App {
   // Crear un DataFrame a partir de un archivo CSV
   val df: DataFrame = spark.read
     .option("inferSchema", "true")
-    .json("src/main/scala/Semana2/sample_data/employees.json")
+    .json("src/main/resources/sample_data/employees.json")
 
   df.printSchema() // También se podría hacer df printSchema y es lo mismo
   df.show(truncate = false)
